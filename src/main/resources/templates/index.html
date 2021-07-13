@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+	 <link th:rel="stylesheet" href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css}">
+	 <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+	 <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js}"></script>
+   
+    <title>Memobook</title>
+    <link th:href="@{../static/style.css}" rel="stylesheet" />
+    <style>
+    	td {
+	    	background:#ffece5;
+	    	border: grey 1px; 
+	    	border:#ff9999 1px solid;
+	    	padding:10px;
+	    	margin:10px;
+	    }
+​
+		
+    </style>
+</head>
+<body>
+   <section class="container">
+      <form id="my-form">
+        <h3>Login to use Memo Book</h3>
+        <div class="msg"></div>
+        <div>
+          <label for="name">id:</label>
+          <input type="text" id="id">
+        </div>
+        <div>
+          <label for="email">pw:</label>
+          <input type="text" id="pw">
+        </div>
+        <input class="btn" type="button" value="sign in">
+      </form>
+
+      <ul id="users"></ul>
+    </section>
+
+
+       
+       A memo pad would be created one by one
+       writer's name would be added
+       text&html tag both would be stored in table,
+       and then be brought here and only text should be shown on browser.. 
+       <!--  <span th:text="${memo}"></span>  -->
+
+     <table>
+	      <tr th:each ="memo: ${memo}">
+		    <td th:text="${memo.id}" />
+		    <td th:text="${memo.content}" />
+		    <td th:text="${memo.update_date}" />
+		 </tr>
+	 </table>     
+
+</body>
+</html>
