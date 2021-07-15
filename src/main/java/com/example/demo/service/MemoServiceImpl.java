@@ -33,31 +33,33 @@ public class MemoServiceImpl implements MemoService{
 	@Override
 	public String addMemo(Memo memo) {
 		MemoEntity memoEntity = new MemoEntity() ;
-   List<FileEntity> fileEntity = new ArrayList<>();
-    for(File file: memo.getFileList()){
-       FileEntity entity = new FileEntity();
-      entity.setFileId(file.getFileId());
-      entity.setCreateDate(file.getCreateDate());
-      entity.setFilepath(file.getFilepath());  
-      fileEntity.add(entity);
-    }
-    memoEntity.setFileEntity(fileEntity);
-    
+		 
+		List<FileEntity> fileEntity = new ArrayList<>();
+		    for(File file: memo.getFileList()){
+		      FileEntity entity = new FileEntity();
+
+		      entity.setFileId(file.getFileId());
+		      entity.setCreateDate(file.getCreateDate());
+		      entity.setFilepath(file.getFilepath());  
+		      fileEntity.add(entity);
+		    }
+		memoEntity.setFileEntity(fileEntity);
+
 		memoEntity.setId(memo.getId());
 		memoEntity.setContent(memo.getContent());
 		memoEntity.setCreate_date(memo.getCreate_date());
 		memoEntity.setUpdate_date(memo.getUpdate_date());
 		
-		//jpa insert & update
+		//jpa insert & update. file table(joined) also should be affected.
 		Optional<MemoEntity> memo2 = memoRepository.findById(memo.getId());
 		memoRepository.save(memoEntity);
 		
 		if(memo2.isPresent()) {	
 			
-			return "memo "+memo.getId()+ "has been successfully updated!";
+			return "memo & its attached files "+memo.getId()+ "has been successfully updated!";
 		}
 	
-		return "memo "+memo.getId()+ "has been successfully added!";
+		return "memo & its attached files "+memo.getId()+ " has been successfully added!";
 	
 	}
 
