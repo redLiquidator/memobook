@@ -5,6 +5,7 @@ public class User {
 	private String authority;
 	private String create_date;
 	private String lastlogin_date;
+	private String password;
   
 	public int getUser_id() {
 		return user_id;
@@ -29,6 +30,12 @@ public class User {
 	}
 	public void setLastlogin_date(String lastlogin_date) {
 		this.lastlogin_date = lastlogin_date;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 
