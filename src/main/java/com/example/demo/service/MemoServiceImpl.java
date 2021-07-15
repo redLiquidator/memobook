@@ -38,9 +38,9 @@ public class MemoServiceImpl implements MemoService{
 		    for(File file: memo.getFileList()){
 		      FileEntity entity = new FileEntity();
 
-		      entity.setFileId(file.getFileId());
-		      entity.setCreateDate(file.getCreateDate());
-		      entity.setFilepath(file.getFilepath());  
+		      entity.setFile_id(file.getFile_id());
+		      entity.setCreate_date(file.getCreate_date());
+		      entity.setFile_path(file.getFile_path());  
 		      fileEntity.add(entity);
 		    }
 		memoEntity.setFileEntity(fileEntity);
@@ -74,6 +74,8 @@ public class MemoServiceImpl implements MemoService{
 			memo.setContent(entity.getContent());
 			memo.setCreate_date(entity.getCreate_date());
 			memo.setUpdate_date(entity.getUpdate_date());
+			//get a list of data of file table(joined). (guess I) don't need for loop bcz setFile_list() already gets a list, not one data 
+			memo.setFile_list(entity.getFileList());	
 			list.add(memo);
 		}
 		return list;	
@@ -82,12 +84,15 @@ public class MemoServiceImpl implements MemoService{
 	@Override
 	public Memo getMemo(int id) {
 		Optional<MemoEntity> memoEntity = memoRepository.findById(id);
-				MemoEntity entity = memoEntity.get();
+		MemoEntity entity = memoEntity.get();
+		
 		Memo memo = new Memo();
 		memo.setId(entity.getId());
 		memo.setContent(entity.getContent());
 		memo.setCreate_date(entity.getCreate_date());
 		memo.setUpdate_date(entity.getUpdate_date());
+		//get a data of file table(joined)
+		memo.setFile_list(entity.getFileList());		
 		return memo;
 	}
 
