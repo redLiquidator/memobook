@@ -43,6 +43,7 @@ public class MemoServiceImpl implements MemoService{
 		      entity.setFile_path(file.getFile_path());  
 		      fileEntity.add(entity);
 		    }
+		
 		memoEntity.setFileEntity(fileEntity);
 
 		memoEntity.setId(memo.getId());
@@ -105,6 +106,17 @@ public class MemoServiceImpl implements MemoService{
 		memoEntity.setCreate_date(memo.getCreate_date());
 		memoEntity.setUpdate_date(memo.getUpdate_date());
 		
+		List<FileEntity> fileEntity = new ArrayList<>();
+		    for(File file: memo.getFileList()){
+		      FileEntity entity = new FileEntity();
+
+		      entity.setFile_id(file.getFile_id());
+		      entity.setCreate_date(file.getCreate_date());
+		      entity.setFile_path(file.getFile_path());  
+		      fileEntity.add(entity);
+		    }
+		
+		memoEntity.setFileEntity(fileEntity);	
 		memoRepository.save(memoEntity);
 		return "ok";
 	}
@@ -112,6 +124,23 @@ public class MemoServiceImpl implements MemoService{
 	@Override
 	public String deleteMemo(int id) {
 		memoRepository.deleteById(id);
+		//delete related file data
+		Optional<MemoEntity> memoEntity = memoRepository.findById(id);
+		MemoEntity entity = memoEntity.get();
+		entity.getFileList()
+			 
+		List<FileEntity> fileEntity = new ArrayList<>();
+		    for(File file: memo.getFileList()){
+		      FileEntity entity = new FileEntity();
+
+		      entity.setFile_id(file.getFile_id());
+		      entity.setCreate_date(file.getCreate_date());
+		      entity.setFile_path(file.getFile_path());  
+		      fileEntity.add(entity);
+		    }
+		
+		
+		fileRepository.deleteById();
 		return "ok";
 	}
 }
