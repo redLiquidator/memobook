@@ -37,6 +37,13 @@ public class UserEntity {
 		this.password = password;
 	}
 	
+	public List<FileEntity> getFileEntity(){
+		return.fileEntity = fileEntity; 
+		}
+	public void setFileEntity(List<FileEntity> fileEntity){
+		this.fileEntity = fileEntity;
+	}
+	
 	@Id  //treated as a primary key.
 	@Column(name="user_id")
 	int user_id;
@@ -49,4 +56,8 @@ public class UserEntity {
 	String authority;
 	@Column(name="password")
 	String password;
+	
+	@OneToMany(cascade = CascateType.ALL)
+	@JoinColumn(name="file_id",referencedColumnName="user_id",insertable=false,updatable=false)
+	List<FileEntity> fileEntity;
 }
