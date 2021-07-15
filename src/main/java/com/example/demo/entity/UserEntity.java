@@ -30,6 +30,12 @@ public class UserEntity {
 	public void setAuthority(String authority) {
 		this.authority = authority;
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	
 	@Id  //treated as a primary key.
 	@Column(name="user_id")
@@ -41,4 +47,6 @@ public class UserEntity {
 	String lastLogin_date;
 	@Column(name="authority")
 	String authority;
+	@Column(name="password")
+	String password;
 }
