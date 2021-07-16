@@ -33,34 +33,22 @@ public class MemoServiceImpl implements MemoService{
 	@Override
 	public String addMemo(Memo memo) {
 		MemoEntity memoEntity = new MemoEntity() ;
-		 
-		List<FileEntity> fileEntity = new ArrayList<>();
-		    for(File file: memo.getFileList()){
-		      FileEntity entity = new FileEntity();
-
-		      entity.setFile_id(file.getFile_id());
-		      entity.setCreate_date(file.getCreate_date());
-		      entity.setFile_path(file.getFile_path());  
-		      fileEntity.add(entity);
-		    }
-		
-		memoEntity.setFileEntity(fileEntity);
 
 		memoEntity.setId(memo.getId());
 		memoEntity.setContent(memo.getContent());
 		memoEntity.setCreate_date(memo.getCreate_date());
 		memoEntity.setUpdate_date(memo.getUpdate_date());
 		
-		//jpa insert & update. file table(joined) also should be affected.
+		//jpa insert & update
 		Optional<MemoEntity> memo2 = memoRepository.findById(memo.getId());
 		memoRepository.save(memoEntity);
 		
 		if(memo2.isPresent()) {	
 			
-			return "memo & its attached files "+memo.getId()+ "has been successfully updated!";
+			return "memo "+memo.getId()+ "has been successfully updated!";
 		}
 	
-		return "memo & its attached files "+memo.getId()+ " has been successfully added!";
+		return "memo "+memo.getId()+ "has been successfully added!";
 	
 	}
 
@@ -75,8 +63,6 @@ public class MemoServiceImpl implements MemoService{
 			memo.setContent(entity.getContent());
 			memo.setCreate_date(entity.getCreate_date());
 			memo.setUpdate_date(entity.getUpdate_date());
-			//get a list of data of file table(joined). (guess I) don't need for loop bcz setFile_list() already gets a list, not one data 
-			memo.setFile_list(entity.getFileList());	
 			list.add(memo);
 		}
 		return list;	
@@ -85,15 +71,12 @@ public class MemoServiceImpl implements MemoService{
 	@Override
 	public Memo getMemo(int id) {
 		Optional<MemoEntity> memoEntity = memoRepository.findById(id);
-		MemoEntity entity = memoEntity.get();
-		
+				MemoEntity entity = memoEntity.get();
 		Memo memo = new Memo();
 		memo.setId(entity.getId());
 		memo.setContent(entity.getContent());
 		memo.setCreate_date(entity.getCreate_date());
 		memo.setUpdate_date(entity.getUpdate_date());
-		//get a data of file table(joined)
-		memo.setFile_list(entity.getFileList());		
 		return memo;
 	}
 
@@ -106,17 +89,6 @@ public class MemoServiceImpl implements MemoService{
 		memoEntity.setCreate_date(memo.getCreate_date());
 		memoEntity.setUpdate_date(memo.getUpdate_date());
 		
-		List<FileEntity> fileEntity = new ArrayList<>();
-		    for(File file: memo.getFileList()){
-		      FileEntity entity = new FileEntity();
-
-		      entity.setFile_id(file.getFile_id());
-		      entity.setCreate_date(file.getCreate_date());
-		      entity.setFile_path(file.getFile_path());  
-		      fileEntity.add(entity);
-		    }
-		
-		memoEntity.setFileEntity(fileEntity);	
 		memoRepository.save(memoEntity);
 		return "ok";
 	}
@@ -124,23 +96,6 @@ public class MemoServiceImpl implements MemoService{
 	@Override
 	public String deleteMemo(int id) {
 		memoRepository.deleteById(id);
-		//delete related file data
-		Optional<MemoEntity> memoEntity = memoRepository.findById(id);
-		MemoEntity entity = memoEntity.get();
-		entity.getFileList()
-			 
-		List<FileEntity> fileEntity = new ArrayList<>();
-		    for(File file: memo.getFileList()){
-		      FileEntity entity = new FileEntity();
-
-		      entity.setFile_id(file.getFile_id());
-		      entity.setCreate_date(file.getCreate_date());
-		      entity.setFile_path(file.getFile_path());  
-		      fileEntity.add(entity);
-		    }
-		
-		
-		fileRepository.deleteById();
 		return "ok";
 	}
 }
