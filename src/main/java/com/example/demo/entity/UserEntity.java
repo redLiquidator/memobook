@@ -1,28 +1,39 @@
 package com.example.demo.entity;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 @Entity 
 //this is a way of telling jpa&hibernate that this is not an normal java class. the object of this class will be responsible for the 
 //updation of the operation
 @Table(name="user")
 public class UserEntity {
 	
-	public int getUser() {
-		return user;
+	public String getUser_id() {
+		return user_id;
 	}
-	public void setUser(int user) {
-		this.user = user;
+	public void setUser(String user_id) {
+		this.user_id = user_id;
 	}
-	public String getCreate_date() {
+	public Date getCreate_date() {
 		return create_date;
 	}
-	public void setCreate_date(String create_date) {
+	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
-	public String getLastlogin_date() {
-		return lastlogin_date;
+	public Date getLast_login_date() {
+		return last_login_date;
 	}
-	public void setLastlogin_date(String lastlogin_date) {
-		this.lastlogin_date = lastlogin_date;
+	public void setLast_login_date(Date last_login_date) {
+		this.last_login_date = last_login_date;
 	}
 	public String getAuthority() {
 		return authority;
@@ -37,27 +48,22 @@ public class UserEntity {
 		this.password = password;
 	}
 	
-	public List<FileEntity> getFileEntity(){
-		return.fileEntity = fileEntity; 
-		}
-	public void setFileEntity(List<FileEntity> fileEntity){
-		this.fileEntity = fileEntity;
-	}
 	
 	@Id  //treated as a primary key.
 	@Column(name="user_id")
-	int user_id;
+	String user_id;
 	
 	@Column(name="create_date")
-	String create_date;
-	@Column(name="lastLogin_date")
-	String lastLogin_date;
+	Date create_date;
+	@Column(name="last_login_date")
+	Date last_login_date;
 	@Column(name="authority")
 	String authority;
 	@Column(name="password")
 	String password;
 	
-	@OneToMany(cascade = CascateType.ALL)
-	@JoinColumn(name="file_id",referencedColumnName="user_id",insertable=false,updatable=false)
-	List<FileEntity> fileEntity;
+
+
+
+
 }

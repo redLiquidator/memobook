@@ -1,16 +1,18 @@
 package com.example.demo.vo;
 
+import java.util.Date;
+
 public class User {
-	private int user_id;
+	private String user_id;
 	private String authority;
-	private String create_date;
-	private String lastlogin_date;
+	private Date create_date;
+	private Date last_login_date;
 	private String password;
   
-	public int getUser_id() {
+	public String getUser_id() {
 		return user_id;
 	}
-	public void setUser_id(int user_id) {
+	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
 	public String getAuthority() {
@@ -19,17 +21,17 @@ public class User {
 	public void setAuthority(String authority) {
 		this.authority = authority;
 	}
-	public String getCreate_date() {
+	public Date getCreate_date() {
 		return create_date;
 	}
-	public void setCreate_date(String create_date) {
+	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
-	public String getLastlogin_date() {
-		return lastlogin_date;
+	public Date getLast_login_date() {
+		return last_login_date;
 	}
-	public void setLastlogin_date(String lastlogin_date) {
-		this.lastlogin_date = lastlogin_date;
+	public void setLastlogin_date(Date last_login_date) {
+		this.last_login_date = last_login_date;
 	}
 	public String getPassword() {
 		return password;

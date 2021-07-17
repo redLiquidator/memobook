@@ -1,28 +1,30 @@
 package com.example.demo.vo;
 
+import java.util.Date;
+
 public class File {
-	private int fileid;
-	private String create_date;
-	private String filepath;
+	private String file_id;
+	private Date create_date;
+	private String file_path;
   
-	public int getFileid() {
-		return fileid;
+	public String getFile_id() {
+		return file_id;
 	}
-	public void setFileid(int fileid) {
-		this.fileid = fileid;
+	public void setFile_id(String file_id) {
+		this.file_id = file_id;
 	}
 
-	public String getCreate_date() {
+	public Date getCreate_date() {
 		return create_date;
 	}
-	public void setCreate_date(String create_date) {
+	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
-	public String getFilepath() {
-		return filepath;
+	public String getFile_path() {
+		return file_path;
 	}
-	public void setFilepath(String filepath) {
-		this.update_date = filepath;
+	public void setFile_path(String file_path) {
+		this.file_path = file_path;
 	}
 	
 

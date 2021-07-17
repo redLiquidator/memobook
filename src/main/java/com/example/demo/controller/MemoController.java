@@ -28,7 +28,11 @@ public class MemoController {
 	@PostMapping("/addMemo")
 		public String addMemo(@RequestBody Memo memo) {
 		System.out.println("controller>addMemo");
-		System.out.println(memo);
+		System.out.println(memo.getContent());
+		System.out.println(memo.getId());
+		System.out.println(memo.getCreate_date());
+		System.out.println(memo.getFileList());
+		System.out.println(memo.getUpdate_date());
 		return memoService.addMemo(memo);	
 	}
 	

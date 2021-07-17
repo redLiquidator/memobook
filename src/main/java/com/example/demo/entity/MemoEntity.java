@@ -1,8 +1,15 @@
 package com.example.demo.entity;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity 
@@ -23,16 +30,16 @@ public class MemoEntity {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getCreate_date() {
+	public Date getCreate_date() {
 		return create_date;
 	}
-	public void setCreate_date(String create_date) {
+	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
-	public String getUpdate_date() {
+	public Date getUpdate_date() {
 		return update_date;
 	}
-	public void setUpdate_date(String update_date) {
+	public void setUpdate_date(Date update_date) {
 		this.update_date = update_date;
 	}
 	
@@ -43,9 +50,26 @@ public class MemoEntity {
 	@Column(name="content")
 	String content;
 	@Column(name="create_date")
-	String create_date;
+	Date create_date;
 	@Column(name="update_date")
-	String update_date;
+	Date update_date;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="file_id",insertable=false,updatable=false)
+	List<FileEntity> fileEntity;
+	
+	public List<FileEntity> getFileEntity(){
+		return fileEntity; 
+		}
+	public void setFileEntity(List<FileEntity> fileEntity){
+		this.fileEntity = fileEntity;
+	}
+
+	  //referencedkey is only for primary key
+	  @ManyToOne(cascade = CascadeType.ALL)  
+	  @JoinColumn(name = "id", insertable =false,updatable = false) 
+	  UserEntity userEntity;
+	 
 
 	
 	

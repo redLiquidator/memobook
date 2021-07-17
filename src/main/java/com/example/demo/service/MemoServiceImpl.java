@@ -7,8 +7,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.FileEntity;
 import com.example.demo.entity.MemoEntity;
+import com.example.demo.repository.FileRepository;
 import com.example.demo.repository.MemoRepository;
+import com.example.demo.vo.File;
 import com.example.demo.vo.Memo;
 
 /* mysql command history...
@@ -29,6 +32,9 @@ public class MemoServiceImpl implements MemoService{
 
 	@Autowired
 	MemoRepository memoRepository;
+	
+	@Autowired
+	FileRepository fileRepository;
 	
 	@Override
 	public String addMemo(Memo memo) {
@@ -76,7 +82,7 @@ public class MemoServiceImpl implements MemoService{
 			memo.setCreate_date(entity.getCreate_date());
 			memo.setUpdate_date(entity.getUpdate_date());
 			//get a list of data of file table(joined). (guess I) don't need for loop bcz setFile_list() already gets a list, not one data 
-			memo.setFile_list(entity.getFileList());	
+			//memo.setFileList(entity.getFileEntity());	
 			list.add(memo);
 		}
 		return list;	
@@ -93,7 +99,7 @@ public class MemoServiceImpl implements MemoService{
 		memo.setCreate_date(entity.getCreate_date());
 		memo.setUpdate_date(entity.getUpdate_date());
 		//get a data of file table(joined)
-		memo.setFile_list(entity.getFileList());		
+		//memo.setFile_list(entity.getFileEntity());		
 		return memo;
 	}
 
@@ -107,7 +113,7 @@ public class MemoServiceImpl implements MemoService{
 		memoEntity.setUpdate_date(memo.getUpdate_date());
 		
 		List<FileEntity> fileEntity = new ArrayList<>();
-		    for(File file: memo.getFileList()){
+	    for(File file: memo.getFileList()){
 		      FileEntity entity = new FileEntity();
 
 		      entity.setFile_id(file.getFile_id());
@@ -127,20 +133,9 @@ public class MemoServiceImpl implements MemoService{
 		//delete related file data
 		Optional<MemoEntity> memoEntity = memoRepository.findById(id);
 		MemoEntity entity = memoEntity.get();
-		entity.getFileList()
-			 
-		List<FileEntity> fileEntity = new ArrayList<>();
-		    for(File file: memo.getFileList()){
-		      FileEntity entity = new FileEntity();
 
-		      entity.setFile_id(file.getFile_id());
-		      entity.setCreate_date(file.getCreate_date());
-		      entity.setFile_path(file.getFile_path());  
-		      fileEntity.add(entity);
-		    }
-		
-		
-		fileRepository.deleteById();
+		System.out.println(entity.getFileEntity());
+		//fileRepository.deleteById(file_id);
 		return "ok";
 	}
 }
