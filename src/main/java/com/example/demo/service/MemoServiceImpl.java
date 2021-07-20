@@ -11,7 +11,7 @@ import com.example.demo.entity.FileEntity;
 import com.example.demo.entity.MemoEntity;
 import com.example.demo.repository.FileRepository;
 import com.example.demo.repository.MemoRepository;
-import com.example.demo.vo.File;
+import com.example.demo.vo.UserFile;
 import com.example.demo.vo.Memo;
 
 /* mysql command history...
@@ -36,33 +36,40 @@ public class MemoServiceImpl implements MemoService{
 	@Autowired
 	FileRepository fileRepository;
 	
+	/* 
+	 * jpa insert & update. file table(joined) also should be affected. 
+	 * 
+	 * */
 	@Override
 	public String addMemo(Memo memo) {
+		
 		MemoEntity memoEntity = new MemoEntity() ;
-		 
+		
+		//insert file data
 		List<FileEntity> fileEntity = new ArrayList<>();
-		    for(File file: memo.getFileList()){
+		    for(UserFile file: memo.getFileList()){
 		      FileEntity entity = new FileEntity();
 
 		      entity.setFile_id(file.getFile_id());
 		      entity.setCreate_date(file.getCreate_date());
-		      entity.setFile_path(file.getFile_path());  
+		      entity.setFile_path(file.getFile_path()); 
 		      fileEntity.add(entity);
 		    }
 		
 		memoEntity.setFileEntity(fileEntity);
-
+		
+        //insert memo data
 		memoEntity.setId(memo.getId());
 		memoEntity.setContent(memo.getContent());
 		memoEntity.setCreate_date(memo.getCreate_date());
 		memoEntity.setUpdate_date(memo.getUpdate_date());
+		memoEntity.setWriter(memo.getWriter());
 		
-		//jpa insert & update. file table(joined) also should be affected.
+
 		Optional<MemoEntity> memo2 = memoRepository.findById(memo.getId());
 		memoRepository.save(memoEntity);
 		
-		if(memo2.isPresent()) {	
-			
+		if(memo2.isPresent()) {			
 			return "memo & its attached files "+memo.getId()+ "has been successfully updated!";
 		}
 	
@@ -75,14 +82,37 @@ public class MemoServiceImpl implements MemoService{
 		List<Memo> list = new ArrayList<>();
 		//jpa select query
 		List<MemoEntity> memoEntityList = memoRepository.findAll();
+		//fileRepository.findById()
 		for(MemoEntity entity: memoEntityList) {
 			Memo memo = new Memo();
 			memo.setId(entity.getId());
 			memo.setContent(entity.getContent());
 			memo.setCreate_date(entity.getCreate_date());
 			memo.setUpdate_date(entity.getUpdate_date());
-			//get a list of data of file table(joined). (guess I) don't need for loop bcz setFile_list() already gets a list, not one data 
-			//memo.setFileList(entity.getFileEntity());	
+			memo.setWriter(entity.getWriter());
+
+			//memo.setFileList(entity.getFileEntity()); datatype mismatch error : list vs single object
+			List<FileEntity> fileEntityList = entity.getFileEntity();
+			List<UserFile> userFileList = new ArrayList<>();
+			for(FileEntity entity1 : fileEntityList) {
+				UserFile userfile = new UserFile();
+				userfile.setFile_id(entity1.getFile_id());
+				userfile.setCreate_date(entity1.getCreate_date());
+				userfile.setFile_path(entity1.getFile_path());
+				userFileList.add(userfile);
+			}
+			
+			memo.setFileList(userFileList);
+			
+			System.out.println("memo.getFileList() |  "+memo.getFileList());	
+			for(FileEntity entity1 : fileEntityList) {
+	
+				System.out.println(entity1.getFile_id());
+				System.out.println(entity1.getCreate_date());
+				System.out.println(entity1.getFile_path());
+			
+			}
+
 			list.add(memo);
 		}
 		return list;	
@@ -98,7 +128,8 @@ public class MemoServiceImpl implements MemoService{
 		memo.setContent(entity.getContent());
 		memo.setCreate_date(entity.getCreate_date());
 		memo.setUpdate_date(entity.getUpdate_date());
-		//get a data of file table(joined)
+		memo.setWriter(entity.getWriter());
+		//get file data
 		//memo.setFile_list(entity.getFileEntity());		
 		return memo;
 	}
@@ -113,7 +144,7 @@ public class MemoServiceImpl implements MemoService{
 		memoEntity.setUpdate_date(memo.getUpdate_date());
 		
 		List<FileEntity> fileEntity = new ArrayList<>();
-	    for(File file: memo.getFileList()){
+	    for(UserFile file: memo.getFileList()){
 		      FileEntity entity = new FileEntity();
 
 		      entity.setFile_id(file.getFile_id());

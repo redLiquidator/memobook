@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.example.demo.vo.UserFile;
+
 @Entity 
 //this is a way of telling jpa&hibernate that this is not an normal java class. the object of this class will be responsible for the 
 //updation of the operation
@@ -53,7 +55,16 @@ public class MemoEntity {
 	Date create_date;
 	@Column(name="update_date")
 	Date update_date;
+	@Column(name="writer")
+	String writer;
 	
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="file_id",insertable=false,updatable=false)
 	List<FileEntity> fileEntity;
@@ -65,10 +76,6 @@ public class MemoEntity {
 		this.fileEntity = fileEntity;
 	}
 
-	  //referencedkey is only for primary key
-	  @ManyToOne(cascade = CascadeType.ALL)  
-	  @JoinColumn(name = "id", insertable =false,updatable = false) 
-	  UserEntity userEntity;
 	 
 
 	

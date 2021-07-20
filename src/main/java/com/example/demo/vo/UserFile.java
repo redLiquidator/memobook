@@ -2,7 +2,7 @@ package com.example.demo.vo;
 
 import java.util.Date;
 
-public class File {
+public class UserFile {
 	private String file_id;
 	private Date create_date;
 	private String file_path;

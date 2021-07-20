@@ -1,2 +1,5 @@
-table design
-https://app.dbdesigner.net/designer/schema/new
+*color code reference
+https://www.quackit.com/css/css_color_codes.cfm
+
+*errors&issues
+1.index.html | thymeleaf external js,css file not imported

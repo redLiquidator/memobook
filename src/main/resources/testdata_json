@@ -3,13 +3,14 @@
 "content":"go to civil service office",
 "create_date":20210717,
 "update_date":20210717,
+"writer": "benjamin",
 "fileList":[
 {
 "file_id":"contract1",
 "create_date":20210717,
 "file_path":20210717
 },{
-"file_id":contract2,
+"file_id":"contract2",
 "create_date":20210717,
 "file_path":20210717
 }]

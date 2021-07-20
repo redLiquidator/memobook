@@ -3,15 +3,10 @@
 <head>
     <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1">
-	 <link th:rel="stylesheet" href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css}">
-	 <link th:rel="stylesheet" href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}" integrity="@{sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm}" crossorigin="@{anonymous}">
-	 <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
-	 <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js}"></script>
-   	<script th:src="@{https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js}" integrity="@{sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q}" crossorigin="@{anonymous}"></script>
-	<script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js}" integrity="@{sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl}" crossorigin="@{anonymous}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!--     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" /> -->
     <title>Memobook</title>
-    <link th:href="@{../static/style.css}" rel="stylesheet" />
     <style>
     	td {
 	    	background:#ffece5;
@@ -21,78 +16,162 @@
 	    	margin:10px;
 	    }
 	    
+	    .memo-info {
+	    	display:inline-block;
+	    	padding:3px;
+	    }	
 	    
-​
-		
+
+	    .form-div {
+	    	margin: 5px;
+	    }
+	    
+	    .memo-bottom-line{
+	    	display:inline-block;
+	    }
+	    
+	    .delete {
+	   		padding-left:10px;
+	    	padding-right:90px;
+	    }
+	    
+	    textarea{
+	    	background-color:snow;
+	    	border: 1px solid LightGrey;
+	    }
+	    
+	    input[type=button] {
+	    	margin-top:10px;
+ 			border: 1px solid DarkGray; 
+ 			border-radius:2px;
+         }
+	   
     </style>
 </head>
+<script th:inline="javascript">
+
+//fires as soon as the page's DOM is ready (doesn't wait for images, etc.).
+$( document ).ready(function() {
+	createMemoHtml();
+});
+
+const allmemo = [[${memo}]];
+
+/**
+ * get date : 1970-01-01T00:00:00.000+09:00 -> 1970-01-01
+ */
+function getdate(date){
+	return date.substring(0,10);
+}
+
+function createMemoHtml(){
+//get memo list -> create html
+allmemo.forEach(element =>{
+console.log(element.id);
+
+    //create dynamic html form
+    let html = `<div class ="form-div">`;
+    
+    html += `<form action="www.naver.com">`; 
+    html += ` <div>`;
+	html += `  <input class = "input-1stlayer" type="hidden" class="form-control" id="id" value=${element.id}>`;
+	html += `</div>`;
+	html += ` <div class="memo-info">`;
+	html += ` <input type="hidden" class="form-control" id="update_date" value=${getdate(element.update_date)}>`;
+	html += ` </div>`;
+	html += `   <div class="memo-info">`;
+	html += `  <input type="hidden" class="form-control" id="writer" value=${element.writer}>`;
+	html += ` </div>`;
+	html += ` <div class="memo-content">`;
+	html += `  <textarea id="content" rows="10" cols="50">${element.content}</textarea>`;
+	html += `</div>`;
+	html += `<div class="save memo-bottom-line">`;
+	html += `<input type="button" value="save">`;
+	html += `</div>`;	
+	html += `<div class="delete memo-bottom-line">`;
+	html += `<input type="button" value="delete">`;
+	html += `</div>`;	
+	html += `<div class="memo-file memo-bottom-line">`;
+	html += `  <input type="file" class="form-control-file" id="file">`;
+	html += `</div>`;
+
+	html += `</form>`;
+	html += `</div>`;
+
+	$(".formTag").append(html);
+});
+}
+
+
+
+const loginform = document.querySelector('#loginform');
+const msg =document.querySelector('.msg');
+const inputId = document.querySelector('#id');
+const inputPassword = document.querySelector('#password');
+
+//on clicking login button, execute onSubmit
+loginform.addEventListener('click', alert("a"));
+
+
+function onSubmit(e){
+    e.preventDefault();
+
+    if(inputId.value === '' || inputPassword.value === ''){
+        msg.innerHTML = `empty value. please insert id and password`;
+        msg.classList.add('error');
+        // inputName.addEventListener('focusin', e => {
+        //     msg.innerHTML = '';
+        //     msg.classList.remove('error');
+        // });
+        setTimeout( () =>{
+            msg.innerHTML = '';
+            msg.classList.remove('error');
+        }, 3000)
+    }else{
+        console.log("id: "+inputId.value+" pw: "+ inputPassword.value);
+    }
+
+    //if id&password is correct, login
+    if( inputId.value === 'jinjoo' && inputPassword.value === '1234'){
+         //create li tag
+        const li = document.createElement('li');
+        //put input values into li tag
+        li.innerHTML = `<strong> user ${inputId.value} logged in succesfully </strong>`;
+        //insert li into the userlist
+        users.appendChild(li);
+    }else{
+        const li = document.createElement('li');
+        //put input values into li tag
+        li.innerHTML = `<strong> login fail. check your id & email </strong>`;
+        //insert li into the userlist
+        users.appendChild(li);
+    }
+}
+
+</script>
 <body>
+	<!-- login -->
    <section class="container">
-      <form id="my-form">
-        <h3>Login to use Memo Book</h3>
+      <form id="loginform">
+        <h2>Login to use Memo Book</h2>
         <div class="msg"></div>
         <div>
-          <label for="name">id:</label>
+          <label for="name">id&nbsp </label>
           <input type="text" id="id">
         </div>
-        <div>
-          <label for="email">pw:</label>
-          <input type="text" id="pw">
+        <div>       
+          <label for="email">pw </label>
+          <input type="text" id="password">
         </div>
         <input class="btn" type="button" value="sign in">
       </form>
-
+      
       <ul id="users"></ul>
     </section>
 
-
-       
-
-       <!--  <span th:text="${memo}"></span>  -->
-
-     <table>
-	      <tr th:each ="memo: ${memo}">
-		    <td th:text="${memo.id}" />
-		    <td th:text="${memo.content}" />
-		    <td th:text="${memo.update_date}" />
-		 </tr>
-	 </table>    
-	
-       <!--  referred source url: https://getbootstrap.com/docs/4.0/components/forms/  -->	
-	<form>
-  <div class="form-group">
-    <label for="exampleFormControlInput1">Email address</label>
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlSelect1">Example select</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlSelect2">Example multiple select</label>
-    <select multiple class="form-control" id="exampleFormControlSelect2">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlTextarea1">Example textarea</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>
-		  <div class="form-group">
-    <label for="exampleFormControlFile1">Example file input</label>
-    <input type="file" class="form-control-file" id="exampleFormControlFile1">
-  </div>
-</form>
+	<section class="formTag">
+		<!-- memo content html is listed here -->
+	</section>
 
 </body>
 </html>

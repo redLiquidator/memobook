@@ -8,7 +8,9 @@ public class Memo {
 	private String content;
 	private Date create_date;
 	private Date update_date;
-	 List<File> fileList;
+	private String writer;
+	
+	 List<UserFile> fileList;
 	 
 	public int getId() {
 		return id;
@@ -34,12 +36,18 @@ public class Memo {
 	public void setUpdate_date(Date update_date) {
 		this.update_date = update_date;
 	}
-	 public List<File> getFileList() {
+	 public List<UserFile> getFileList() {
 		return fileList;
 	}
 
-	public void setFileList(List<File> fileList) {
+	public void setFileList(List<UserFile> fileList) {
 		this.fileList = fileList;
+	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 	
 
