@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!--     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" /> -->
+     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
     <title>Memobook</title>
     <style>
     	td {
@@ -48,107 +49,7 @@
 	   
     </style>
 </head>
-<script th:inline="javascript">
 
-//fires as soon as the page's DOM is ready (doesn't wait for images, etc.).
-$( document ).ready(function() {
-	createMemoHtml();
-});
-
-const allmemo = [[${memo}]];
-
-/**
- * get date : 1970-01-01T00:00:00.000+09:00 -> 1970-01-01
- */
-function getdate(date){
-	return date.substring(0,10);
-}
-
-function createMemoHtml(){
-//get memo list -> create html
-allmemo.forEach(element =>{
-console.log(element.id);
-
-    //create dynamic html form
-    let html = `<div class ="form-div">`;
-    
-    html += `<form action="www.naver.com">`; 
-    html += ` <div>`;
-	html += `  <input class = "input-1stlayer" type="hidden" class="form-control" id="id" value=${element.id}>`;
-	html += `</div>`;
-	html += ` <div class="memo-info">`;
-	html += ` <input type="hidden" class="form-control" id="update_date" value=${getdate(element.update_date)}>`;
-	html += ` </div>`;
-	html += `   <div class="memo-info">`;
-	html += `  <input type="hidden" class="form-control" id="writer" value=${element.writer}>`;
-	html += ` </div>`;
-	html += ` <div class="memo-content">`;
-	html += `  <textarea id="content" rows="10" cols="50">${element.content}</textarea>`;
-	html += `</div>`;
-	html += `<div class="save memo-bottom-line">`;
-	html += `<input type="button" value="save">`;
-	html += `</div>`;	
-	html += `<div class="delete memo-bottom-line">`;
-	html += `<input type="button" value="delete">`;
-	html += `</div>`;	
-	html += `<div class="memo-file memo-bottom-line">`;
-	html += `  <input type="file" class="form-control-file" id="file">`;
-	html += `</div>`;
-
-	html += `</form>`;
-	html += `</div>`;
-
-	$(".formTag").append(html);
-});
-}
-
-
-
-const loginform = document.querySelector('#loginform');
-const msg =document.querySelector('.msg');
-const inputId = document.querySelector('#id');
-const inputPassword = document.querySelector('#password');
-
-//on clicking login button, execute onSubmit
-loginform.addEventListener('click', alert("a"));
-
-
-function onSubmit(e){
-    e.preventDefault();
-
-    if(inputId.value === '' || inputPassword.value === ''){
-        msg.innerHTML = `empty value. please insert id and password`;
-        msg.classList.add('error');
-        // inputName.addEventListener('focusin', e => {
-        //     msg.innerHTML = '';
-        //     msg.classList.remove('error');
-        // });
-        setTimeout( () =>{
-            msg.innerHTML = '';
-            msg.classList.remove('error');
-        }, 3000)
-    }else{
-        console.log("id: "+inputId.value+" pw: "+ inputPassword.value);
-    }
-
-    //if id&password is correct, login
-    if( inputId.value === 'jinjoo' && inputPassword.value === '1234'){
-         //create li tag
-        const li = document.createElement('li');
-        //put input values into li tag
-        li.innerHTML = `<strong> user ${inputId.value} logged in succesfully </strong>`;
-        //insert li into the userlist
-        users.appendChild(li);
-    }else{
-        const li = document.createElement('li');
-        //put input values into li tag
-        li.innerHTML = `<strong> login fail. check your id & email </strong>`;
-        //insert li into the userlist
-        users.appendChild(li);
-    }
-}
-
-</script>
 <body>
 	<!-- login -->
    <section class="container">
@@ -163,7 +64,7 @@ function onSubmit(e){
           <label for="email">pw </label>
           <input type="text" id="password">
         </div>
-        <input class="btn" type="button" value="sign in">
+        <input class="btn" type="submit" value="sign in">
       </form>
       
       <ul id="users"></ul>
@@ -174,4 +75,123 @@ function onSubmit(e){
 	</section>
 
 </body>
+<script th:inline="javascript">
+	
+	//fires as soon as the page's DOM is ready (doesn't wait for images, etc.).
+	$( document ).ready(function() {
+		createMemoHtml();
+	});
+	
+	const allmemo = [[${memo}]];
+	
+	/**
+	 * get date : 1970-01-01T00:00:00.000+09:00 -> 1970-01-01
+	 */
+	function getdate(date){
+		return date.substring(0,10);
+	}
+	
+	function createMemoHtml(){
+	//get memo list -> create html
+	allmemo.forEach(element =>{
+	console.log(element.id);
+	
+	    //create dynamic html form
+	    let html = `<div class ="form-div">`;
+	    
+	    html += `<form class="memoform">`; 
+	    html += ` <div>`;
+		html += `  <input class = "input-1stlayer" type="hidden" class="form-control" id="id" value=${element.id}>`;
+		html += `</div>`;
+		html += ` <div class="memo-info">`;
+		html += ` <input type="hidden" class="form-control" id="update_date" value=${getdate(element.update_date)}>`;
+		html += ` </div>`;
+		html += `   <div class="memo-info">`;
+		html += `  <input type="hidden" class="form-control" id="writer" value=${element.writer}>`;
+		html += ` </div>`;
+		html += ` <div class="memo-content">`;
+		html += `  <textarea id="content" rows="20" cols="50">${element.content}</textarea>`;
+		html += `</div>`;
+		html += `<div class="save memo-bottom-line">`;
+		html += `<input type="submit" value="save">`;
+		html += `</div>`;	
+/* 		html += `<div class="delete memo-bottom-line">`;
+		html += `<input type="submit" value="delete">`;
+		html += `</div>`;	 */
+		html += `<div class="memo-file memo-bottom-line">`;
+		html += `  <input type="file" class="form-control-file" id="file">`;
+		html += `</div>`;
+	
+		html += `</form>`;
+		html += `</div>`;
+	
+		$(".formTag").append(html);
+		
+	});
+	}
+	
+	
+	 console.log($(".form-div").html());
+	//const hello = document.querySelector('.memoform');
+	//console.log(hello);
+	//memoform.addEventListener('submit', submitMemo);   //refer to the type of the submit input ..<input type="submit"
+	
+	//add & update & delete
+	function submitMemo(){
+		
+		//jquery ajax | send a form 
+		//if value is save, add/update
+		//if value id delete, delete
+		//if(){}else if(){}
+		console.log($(".delete").val());
+		$("#formTag").ajaxForm({url: '/addMemo', type: 'post'})
+	};
+	
+	
+	//login
+	const loginform = document.querySelector('#loginform');
+	const msg =document.querySelector('.msg');
+	const inputId = document.querySelector('#id');
+	const inputPassword = document.querySelector('#password');
+	
+
+	//on clicking login button, execute onSubmit function
+	loginform.addEventListener('submit', onSubmit);
+	
+	function onSubmit(e){
+	    e.preventDefault();
+	
+	    if(inputId.value === '' || inputPassword.value === ''){
+	        msg.innerHTML = `empty value. please insert id and password`;
+	        msg.classList.add('error');
+	        // inputName.addEventListener('focusin', e => {
+	        //     msg.innerHTML = '';
+	        //     msg.classList.remove('error');
+	        // });
+	        setTimeout( () =>{
+	            msg.innerHTML = '';
+	            msg.classList.remove('error');
+	        }, 3000)
+	    }else{
+	        console.log("id: "+inputId.value+" pw: "+ inputPassword.value);
+	    }
+	
+	    //if id&password is correct, login
+	    if( inputId.value === 'jinjoo' && inputPassword.value === '1234'){
+	         //create li tag
+	        const li = document.createElement('li');
+	        //put input values into li tag
+	        li.innerHTML = `<strong> user ${inputId.value} logged in succesfully </strong>`;
+	        //insert li into the userlist
+	        users.appendChild(li);
+	    }else{
+	        const li = document.createElement('li');
+	        //put input values into li tag
+	        li.innerHTML = `<strong> login fail. check your id & email </strong>`;
+	        //insert li into the userlist
+	        users.appendChild(li);
+	    }
+	}
+
+</script>
 </html>
