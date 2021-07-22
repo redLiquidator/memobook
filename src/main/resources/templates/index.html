@@ -98,8 +98,9 @@
 	
 	    //create dynamic html form
 	    let html = `<div class ="form-div">`;
+	
 	    
-	    html += `<form class="memoform">`; 
+	    html += `<form id="memoform'+ element.id +'">`;    //20210722 create unique id (using element.id)
 	    html += ` <div>`;
 		html += `  <input class = "input-1stlayer" type="hidden" class="form-control" id="id" value=${element.id}>`;
 		html += `</div>`;
@@ -131,10 +132,10 @@
 	}
 	
 	
-	 console.log($(".form-div").html());
-	//const hello = document.querySelector('.memoform');
-	//console.log(hello);
-	//memoform.addEventListener('submit', submitMemo);   //refer to the type of the submit input ..<input type="submit"
+	 
+	 const memoform1 = document.querySelector('.memoform1');
+	console.log(memoform1);
+	memoform1.addEventListener('submit', submitMemo);   //'submit' is event type. it comes from <input type="submit"..
 	
 	//add & update & delete
 	function submitMemo(){
