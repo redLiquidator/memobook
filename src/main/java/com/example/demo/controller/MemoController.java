@@ -36,6 +36,9 @@ public class MemoController {
 	}
 	
 	@GetMapping("/getMemo/{id}") public Memo getMemo(@PathVariable int id) {
+		if(id == null | id == ""){
+			throw IllegalArgumentException("Id is null or empty");
+		}
 		return memoService.getMemo(id);
 	}
 	
